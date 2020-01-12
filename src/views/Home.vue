@@ -6,36 +6,62 @@
     outlined
     elevation="1"
   >
-    <v-list-item three-line>
+    <v-list-item>
       <v-list-item-content>
-        <div class="overline mb-4">OVERLINE</div>
-        <v-list-item-title class="headline mb-1">Headline 5</v-list-item-title>
-        <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+        <v-img src="/blockstack-logo-landscape.svg" />
       </v-list-item-content>
+    </v-list-item>
 
-      <v-list-item-avatar
-        tile
-        size="80"
-        color="grey"
-      ></v-list-item-avatar>
+    <v-list-item>
+      <v-list-item-content>
+        <v-text-field
+            outlined
+            label="Username"
+            placeholder="Username"
+            solo
+          ></v-text-field>
+      </v-list-item-content>
     </v-list-item>
 
     <v-card-actions>
-      <v-btn text>Button</v-btn>
-      <v-btn text>Button</v-btn>
+      <a
+        v-show="loginView"
+        class="subtitle-2 px-2 primary--text"
+        @click="toggleCreateAccountView">
+        Create new account
+      </a>
+      <a
+        v-show="createAccountView"
+        class="subtitle-2 px-2 primary--text"
+        @click="toggleLoginView">
+        Use existing account
+      </a>
+      <v-spacer></v-spacer>
+      <v-btn small color="primary">Next</v-btn>
     </v-card-actions>
   </v-card>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue';
-
 export default {
   name: 'home',
+  data: () => ({
+    loginView: true,
+    createAccountView: false,
+  }),
   components: {
 
+  },
+  methods: {
+    toggleCreateAccountView() {
+      this.createAccountView = true;
+      this.loginView = false;
+    },
+    toggleLoginView() {
+      this.createAccountView = false;
+      this.loginView = true;
+    },
   },
 };
 </script>
