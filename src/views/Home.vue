@@ -77,36 +77,37 @@
         </v-card-actions>
       </v-container>
 
-      <v-container fluid v-show="step === 2">
-        <v-row>
-          <v-col cols="12" md="12" sm="12">
-            <vue-web-cam
-              ref="webcam"
-              :device-id="deviceId"
-              width="100%"
-              @started="onStarted"
-              @stopped="onStopped"
-              @error="onError"
-              @cameras="onCameras"
-              @camera-change="onCameraChange"
-            />
-
-            <select v-model="camera">
-              <option>-- Select Device --</option>
-              <option
-                v-for="device in devices"
-                :key="device.deviceId"
-                :value="device.deviceId"
-              >{{ device.label }}</option>
-            </select>
-
-            <button type="button" class="btn btn-primary" @click="onCapture">Capture Photo</button>
-            <button type="button" class="btn btn-danger" @click="onStop">Stop Camera</button>
-            <button type="button" class="btn btn-success" @click="onStart">Start Camera</button>
-
-            <figure class="figure">
-              <img :src="img" class="img-responsive" />
-            </figure>
+      <v-container fluid v-show="step === 2" class="ma-0 pa-0">
+        <v-row class="ma-0 pa-0">
+          <v-col cols="12" md="12" sm="12" class="ma-0 pa-0">
+            <div v-show="img === null" class="ma-0 pa-0">
+              <v-container class="ma-0 pa-0">
+                <v-row class="ma-0 pa-0">
+                  <v-col cols="12" md="12" sm="12" class="ma-0 pa-0">
+                    <vue-web-cam
+                      ref="webcam"
+                      :device-id="deviceId"
+                      class="img-responsive"
+                      @started="onStarted"
+                      @stopped="onStopped"
+                      @error="onError"
+                      @cameras="onCameras"
+                    />
+                  </v-col>
+                </v-row>
+              </v-container>
+            </div>
+            <div v-show="img !== null" class="ma-0 pa-0">
+              <v-container class="ma-0 pa-0">
+                <v-row class="ma-0 pa-0">
+                  <v-col cols="12" md="12" sm="12" class="ma-0 pa-0">
+                    <figure class="figure">
+                      <img :src="img" class="img-responsive" />
+                    </figure>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </div>
           </v-col>
         </v-row>
         <v-row>
@@ -156,6 +157,8 @@ export default {
   },
   methods: {
     submit() {
+      this.img = this.$refs.webcam.capture();
+      this.$refs.webcam.stop();
       console.log('signin');
     },
     back() {
@@ -194,11 +197,14 @@ export default {
       this.devices = cameras;
       console.log('On Cameras Event', cameras);
     },
-    onCameraChange(deviceId) {
-      this.deviceId = deviceId;
-      this.camera = deviceId;
-      console.log('On Camera Change Event', deviceId);
-    },
   },
 };
 </script>
+
+<style>
+
+.img-responsive {
+  height: auto;
+  max-width: -webkit-fill-available;
+}
+</style>
