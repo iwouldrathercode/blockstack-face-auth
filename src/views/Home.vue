@@ -85,14 +85,8 @@
                 <v-row class="ma-0 pa-0">
                   <v-col cols="12" md="12" sm="12" class="ma-0 pa-0">
                     <vue-web-cam
-                      ref="webcam"
-                      :device-id="deviceId"
-                      class="img-responsive"
-                      @started="onStarted"
-                      @stopped="onStopped"
-                      @error="onError"
-                      @cameras="onCameras"
-                    />
+                      ref="webcam" :device-id="deviceId"
+                      class="img-responsive" @cameras="onCameras"/>
                   </v-col>
                 </v-row>
               </v-container>
@@ -111,8 +105,9 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12" md="12" sm="12" class="justify-center">
-            <v-btn block color="success" @click="submit">Verify &amp; Signin</v-btn>
+          <v-col cols="12" md="12" sm="12" class="justify-center pa-6">
+            <v-btn block color="success" :loading="loading"
+              @click="submit">Verify &amp; Signin</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -136,20 +131,22 @@ export default {
     camera: null,
     deviceId: null,
     devices: [],
+    loading: false,
   }),
-  computed: {
-    device() {
-      return this.devices.find(n => n.deviceId === this.deviceId);
-    },
-  },
   watch: {
     camera(id) {
-      this.deviceId = id;
+      console.log('camera watch');
+      if (this.step === 2) {
+        console.log(this.step);
+        this.deviceId = id;
+      }
     },
     devices() {
       // Once we have a list select the first one
       const [first] = this.devices;
+      console.log('before cond');
       if (first) {
+        console.log('after cond');
         this.camera = first.deviceId;
         this.deviceId = first.deviceId;
       }
@@ -159,6 +156,7 @@ export default {
     submit() {
       this.img = this.$refs.webcam.capture();
       this.$refs.webcam.stop();
+      this.loading = true;
       console.log('signin');
     },
     back() {
@@ -178,12 +176,6 @@ export default {
     onCapture() {
       this.img = this.$refs.webcam.capture();
     },
-    onStarted(stream) {
-      console.log('On Started Event', stream);
-    },
-    onStopped(stream) {
-      console.log('On Stopped Event', stream);
-    },
     onStop() {
       this.$refs.webcam.stop();
     },
@@ -202,7 +194,6 @@ export default {
 </script>
 
 <style>
-
 .img-responsive {
   height: auto;
   max-width: -webkit-fill-available;
