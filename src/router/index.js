@@ -1,14 +1,26 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '@/views/Home.vue';
+import Authentication from '@/views/Authentication.vue';
+import Registration from '@/views/Registration.vue';
+import Verification from '@/views/Verification.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: Home,
+    name: 'authentication',
+    component: Authentication,
+  },
+  {
+    path: '/register',
+    name: 'registration',
+    component: Registration,
+  },
+  {
+    path: '/verify',
+    name: 'verification',
+    component: Verification,
   },
 ];
 
