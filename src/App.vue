@@ -12,7 +12,7 @@
                   </v-list-item-content>
                 </v-list-item>
                 <v-divider></v-divider>
-                  <router-view />
+                <router-view />
               </v-card>
             </div>
           </v-flex>

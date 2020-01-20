@@ -45,6 +45,7 @@ export default {
     camera: null,
     deviceId: null,
     devices: [],
+    //
   }),
   components: {
     'vue-web-cam': WebCam,
