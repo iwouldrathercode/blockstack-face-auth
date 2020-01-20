@@ -22,12 +22,17 @@
         </v-row>
     </div>
     <v-card-actions>
-      <a class="subtitle-2 px-2 primary--text" @click="registrationView">
-        Create new account
+      <a class="subtitle-2 px-2 red--text" @click="forgotPasswordView">
+        Forgot password ?
       </a>
       <v-spacer></v-spacer>
       <v-btn color="primary" :loading="loadingState" @click="faceAuthencticateView">
-        Next
+        Sign In
+      </v-btn>
+    </v-card-actions>
+    <v-card-actions class="mt-6">
+      <v-btn block text color="primary" :loading="loadingState" @click="registrationView">
+        Create new account
       </v-btn>
     </v-card-actions>
   </v-container>
@@ -45,6 +50,9 @@ export default {
     },
   },
   methods: {
+    forgotPasswordView() {
+      this.$router.push({ name: 'recovery' });
+    },
     registrationView() {
       this.$router.push({ name: 'registration' });
     },

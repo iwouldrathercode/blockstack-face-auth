@@ -5,7 +5,7 @@
         <div v-show="img === null" class="ma-0 pa-0">
           <v-container class="ma-0 pa-0">
             <v-row class="ma-0 pa-0">
-              <v-col cols="12" md="12" sm="12" class="ma-0 pa-0">
+              <v-col cols="12" md="12" sm="12" class="ma-0 pa-0 camera-placeholder">
                 <vue-web-cam
                   ref="webcam" :device-id="deviceId"
                   class="img-responsive" @cameras="onCameras"/>
@@ -28,7 +28,7 @@
     </v-row>
     <v-row>
       <v-col cols="12" md="12" sm="12" class="justify-center pa-6">
-        <v-btn block color="success" :loading="loadingState"
+        <v-btn block color="primary" :loading="loadingState"
           @click="submit">Verify &amp; Sign in</v-btn>
       </v-col>
     </v-row>
@@ -106,5 +106,8 @@ export default {
 </script>
 
 <style>
-
+.camera-placeholder {
+  background: url('/infinity.gif') no-repeat center center;
+  min-height: 263.5px;
+}
 </style>

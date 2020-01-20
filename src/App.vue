@@ -5,7 +5,7 @@
         <v-layout wrap class="justify-center align-center">
           <v-flex xs12>
             <div class="fill-height align-center justify-center home">
-              <v-card class="mx-auto" max-width="344" outlined elevation="1">
+              <v-card class="mx-auto" max-width="344" outlined elevation="1" min-height="450">
                 <v-list-item>
                   <v-list-item-content>
                     <v-img src="/blockstack-logo-landscape.svg" />
