@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'Registration',
   computed: {
@@ -50,10 +52,11 @@ export default {
       get() {
         return this.$store.state.loading;
       },
-      set() {},
+      set(value) { this.SET_LOADING_STATE(value); },
     },
   },
   methods: {
+    ...mapActions(['SET_LOADING_STATE']),
     authenticationView() {
       this.$router.push({ name: 'authentication' });
     },
