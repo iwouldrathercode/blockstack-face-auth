@@ -48,7 +48,7 @@ export default {
   data: () => ({
     // vue-web-cam
     image: null,
-    savedImage: 'http://localhost:8080/tests/test-002.jpeg',
+    savedImage: 'http://localhost:8080/tests/test-004.jpeg',
     camera: null,
     deviceId: null,
     devices: [],
@@ -125,34 +125,34 @@ export default {
       this.camera = deviceId;
       console.log('On Camera Change Event', deviceId);
     },
-    b64toBlob(dataURI) {
-      const byteString = atob(dataURI.split(',')[1]);
-      const ab = new ArrayBuffer(byteString.length);
-      const ia = new Uint8Array(ab);
-
-      for (let i = 0; i < byteString.length; i += 1) {
-        ia[i] = byteString.charCodeAt(i);
-      }
-      return new Blob([ab], { type: 'image/jpeg' });
-    },
     async verifyFace() {
-      const webCamInput = await faceapi.fetchImage(this.image);
-      const faceDescriptor = await faceapi.computeFaceDescriptor(webCamInput);
-
       const referenceImage = await faceapi.fetchImage(this.savedImage);
-      const savedImageDescriptor = await faceapi.computeFaceDescriptor(referenceImage);
+      const results = await faceapi
+        .detectAllFaces(referenceImage)
+        .withFaceLandmarks()
+        .withFaceDescriptors();
 
-      const distance = faceapi.utils.round(faceapi.euclideanDistance(
-        faceDescriptor,
-        savedImageDescriptor,
-      ));
-      console.log(distance);
-
-      if (distance > this.threshold) {
-        console.log('not matching');
-      } else {
-        console.log('matching');
+      if (!results.length) {
+        return;
       }
+
+      // create FaceMatcher with automatically assigned labels
+      // from the detection results for the reference image
+      const faceMatcher = new faceapi.FaceMatcher(results);
+      const webCamInput = await faceapi.fetchImage(this.image);
+      const singleResult = await faceapi.detectSingleFace(webCamInput)
+        .withFaceLandmarks()
+        .withFaceDescriptor();
+
+      if (singleResult) {
+        const bestMatch = faceMatcher.findBestMatch(singleResult.descriptor);
+        if ((bestMatch.label === 'unknown') || (bestMatch.distance > this.threshold)) {
+          console.log(`Not matching the reference image!! : ${bestMatch.label}`);
+        } else {
+          console.log(bestMatch.label);
+        }
+      }
+
       this.loadingState = false;
     },
   },
