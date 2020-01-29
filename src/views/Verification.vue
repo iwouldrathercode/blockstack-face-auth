@@ -135,6 +135,7 @@ export default {
       if (!results.length) {
         return;
       }
+      console.log('Passed reference image, reference image considered');
 
       // create FaceMatcher with automatically assigned labels
       // from the detection results for the reference image
@@ -145,12 +146,17 @@ export default {
         .withFaceDescriptor();
 
       if (singleResult) {
+        console.log('Single result passed');
         const bestMatch = faceMatcher.findBestMatch(singleResult.descriptor);
         if ((bestMatch.label === 'unknown') || (bestMatch.distance > this.threshold)) {
           console.log(`Not matching the reference image!! : ${bestMatch.label}`);
         } else {
           console.log(bestMatch.label);
         }
+      } else {
+        this.onStart();
+        this.image = null;
+        console.log('Could not detect faces, please try again!');
       }
 
       this.loadingState = false;
