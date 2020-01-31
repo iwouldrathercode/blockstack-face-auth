@@ -151,7 +151,7 @@ export default {
       if (!results.length) {
         return;
       }
-      console.log('Passed reference image, reference image considered');
+      // console.log('Passed reference image, reference image considered');
 
       // create FaceMatcher with automatically assigned labels
       // from the detection results for the reference image

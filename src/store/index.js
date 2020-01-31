@@ -1,9 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import * as registration from '@/store/modules/registration';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  modules: {
+    registration,
+  },
   state: {
     loading: false,
     notification: {
@@ -27,7 +31,5 @@ export default new Vuex.Store({
     SET_NOTIFICATION({ commit }, notification) {
       commit('COMMIT_NOTIFICATION', notification);
     },
-  },
-  modules: {
   },
 });

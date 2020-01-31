@@ -35,7 +35,7 @@
         Sign in to existing account
       </a>
       <v-spacer></v-spacer>
-      <v-btn color="primary" :loading="loadingState" @click="faceAuthencticateView">
+      <v-btn color="primary" :loading="loadingState" @click="register">
         Next
       </v-btn>
     </v-card-actions>
@@ -56,12 +56,20 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['SET_LOADING_STATE']),
+    ...mapActions([
+      'SET_LOADING_STATE',
+      'INTIALIZE_WALLET',
+      'CREATE_ACCOUNT',
+    ]),
     authenticationView() {
       this.$router.push({ name: 'authentication' });
     },
-    faceAuthencticateView() {
-      this.$router.push({ name: 'verification' });
+    register() {
+      this.loadingState = true;
+      this.INTIALIZE_WALLET().then(() => {
+        this.CREATE_ACCOUNT();
+      });
+      this.loadingState = false;
     },
   },
 };
