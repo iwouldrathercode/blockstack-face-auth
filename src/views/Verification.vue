@@ -55,7 +55,7 @@ export default {
   data: () => ({
     // vue-web-cam
     image: null,
-    savedImage: 'http://localhost:8080/tests/test-004.jpeg',
+    savedImage: 'http://localhost:8080/tests/test-001.jpeg',
     camera: null,
     deviceId: null,
     devices: [],
