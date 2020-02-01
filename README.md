@@ -1,4 +1,4 @@
-# fort
+# blockstack-face-auth 🙂🗝️
 
 ## Project setup
 ```
