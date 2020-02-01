@@ -21,17 +21,17 @@
           ></v-text-field>
         </v-row>
     </div>
-    <v-card-actions>
+    <v-card-actions class="px-4">
       <a class="subtitle-2 px-2 red--text" @click="forgotPasswordView">
         Forgot password ?
       </a>
       <v-spacer></v-spacer>
       <v-btn color="primary" :loading="loadingState" @click="faceAuthencticateView">
-        Sign In
+        Sign In <v-icon>mdi-chevron-right</v-icon>
       </v-btn>
     </v-card-actions>
     <v-card-actions class="mt-6">
-      <v-btn block text color="primary" :loading="loadingState" @click="registrationView">
+      <v-btn block outlined large color="primary" :loading="loadingState" @click="registrationView">
         Create new account
       </v-btn>
     </v-card-actions>

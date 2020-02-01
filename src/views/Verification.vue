@@ -29,9 +29,16 @@
         </div>
       </v-col>
     </v-row>
+    <v-row v-if="notification.visibility">
+      <v-col cols="12" md="12" sm="12" class="justify-center px-6">
+        <v-alert outlined dense text :type="notification.type" >
+          {{ notification.message }}
+        </v-alert>
+      </v-col>
+    </v-row>
     <v-row>
-      <v-col cols="12" md="12" sm="12" class="justify-center pa-6">
-        <v-btn block color="primary" :loading="loadingState"
+      <v-col cols="12" md="12" sm="12" class="justify-center px-6">
+        <v-btn block large color="primary" :loading="loadingState"
           @click="submit">Verify &amp; Sign in</v-btn>
       </v-col>
     </v-row>
@@ -48,7 +55,7 @@ export default {
   data: () => ({
     // vue-web-cam
     image: null,
-    savedImage: 'http://localhost:8080/tests/test-004.jpeg',
+    savedImage: 'http://localhost:8080/tests/test-001.jpeg',
     camera: null,
     deviceId: null,
     devices: [],
@@ -76,6 +83,12 @@ export default {
       },
       set(value) { this.SET_LOADING_STATE(value); },
     },
+    notification: {
+      get() {
+        return this.$store.state.notification;
+      },
+      set(value) { this.SET_NOTIFICATION(value); },
+    },
   },
   watch: {
     camera(id) {
@@ -91,7 +104,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['SET_LOADING_STATE']),
+    ...mapActions([
+      'SET_LOADING_STATE',
+      'SET_NOTIFICATION',
+    ]),
     submit() {
       this.loadingState = true;
       this.onCapture();
@@ -135,6 +151,7 @@ export default {
       if (!results.length) {
         return;
       }
+      // console.log('Passed reference image, reference image considered');
 
       // create FaceMatcher with automatically assigned labels
       // from the detection results for the reference image
@@ -145,12 +162,33 @@ export default {
         .withFaceDescriptor();
 
       if (singleResult) {
+        // console.log('Single result passed');
         const bestMatch = faceMatcher.findBestMatch(singleResult.descriptor);
         if ((bestMatch.label === 'unknown') || (bestMatch.distance > this.threshold)) {
-          console.log(`Not matching the reference image!! : ${bestMatch.label}`);
+          // console.log(`Not matching the reference image!! : ${bestMatch.label}`);
+          this.onStart();
+          this.image = null;
+          this.notification = {
+            visibility: true,
+            type: 'error',
+            message: 'Authentication failed, please try again!',
+          };
         } else {
-          console.log(bestMatch.label);
+          // console.log(bestMatch.label);
+          this.notification = {
+            visibility: true,
+            type: 'success',
+            message: 'Successfully logged in, redirecting you to application',
+          };
         }
+      } else {
+        this.onStart();
+        this.image = null;
+        this.notification = {
+          visibility: true,
+          type: 'error',
+          message: 'Could not detect faces, please try again!',
+        };
       }
 
       this.loadingState = false;

@@ -5,6 +5,7 @@
         <v-text-field
           outlined
           prepend-inner-icon="mdi-account"
+          :value="usernameField"
           label="Username"
           placeholder="Username"
           solo
@@ -14,6 +15,7 @@
         <v-text-field
           outlined
           prepend-inner-icon="mdi-email"
+          :value="emailField"
           label="Email address"
           placeholder="Your email address"
           solo
@@ -23,6 +25,7 @@
         <v-text-field
           outlined
           prepend-inner-icon="mdi-key"
+          :value="passwordField"
           type="password"
           label="Password"
           placeholder="Password"
@@ -35,7 +38,7 @@
         Sign in to existing account
       </a>
       <v-spacer></v-spacer>
-      <v-btn color="primary" :loading="loadingState" @click="faceAuthencticateView">
+      <v-btn color="primary" :loading="loadingState" @click="register">
         Next
       </v-btn>
     </v-card-actions>
@@ -54,14 +57,37 @@ export default {
       },
       set(value) { this.SET_LOADING_STATE(value); },
     },
+    usernameField: {
+      get() {
+        return this.$store.state.registration.username;
+      },
+      set(value) { this.SET_INPUT_VALUE('username', value); },
+    },
+    passwordField: {
+      get() {
+        return this.$store.state.registration.password;
+      },
+      set(value) { this.SET_INPUT_VALUE('password', value); },
+    },
+    emailField: {
+      get() {
+        return this.$store.state.registration.email;
+      },
+      set(value) { this.SET_INPUT_VALUE('email', value); },
+    },
   },
   methods: {
-    ...mapActions(['SET_LOADING_STATE']),
+    ...mapActions([
+      'SET_LOADING_STATE',
+      'CREATE_ACCOUNT',
+    ]),
     authenticationView() {
       this.$router.push({ name: 'authentication' });
     },
-    faceAuthencticateView() {
-      this.$router.push({ name: 'verification' });
+    register() {
+      this.loadingState = true;
+      this.CREATE_ACCOUNT();
+      this.loadingState = false;
     },
   },
 };
