@@ -79,7 +79,6 @@ export default {
   methods: {
     ...mapActions([
       'SET_LOADING_STATE',
-      'INTIALIZE_WALLET',
       'CREATE_ACCOUNT',
     ]),
     authenticationView() {
@@ -87,9 +86,7 @@ export default {
     },
     register() {
       this.loadingState = true;
-      this.INTIALIZE_WALLET().then(() => {
-        this.CREATE_ACCOUNT();
-      });
+      this.CREATE_ACCOUNT();
       this.loadingState = false;
     },
   },
