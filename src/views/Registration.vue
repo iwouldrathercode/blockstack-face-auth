@@ -5,6 +5,7 @@
         <v-text-field
           outlined
           prepend-inner-icon="mdi-account"
+          :value="usernameField"
           label="Username"
           placeholder="Username"
           solo
@@ -14,6 +15,7 @@
         <v-text-field
           outlined
           prepend-inner-icon="mdi-email"
+          :value="emailField"
           label="Email address"
           placeholder="Your email address"
           solo
@@ -23,6 +25,7 @@
         <v-text-field
           outlined
           prepend-inner-icon="mdi-key"
+          :value="passwordField"
           type="password"
           label="Password"
           placeholder="Password"
@@ -53,6 +56,24 @@ export default {
         return this.$store.state.loading;
       },
       set(value) { this.SET_LOADING_STATE(value); },
+    },
+    usernameField: {
+      get() {
+        return this.$store.state.registration.username;
+      },
+      set(value) { this.SET_INPUT_VALUE('username', value); },
+    },
+    passwordField: {
+      get() {
+        return this.$store.state.registration.password;
+      },
+      set(value) { this.SET_INPUT_VALUE('password', value); },
+    },
+    emailField: {
+      get() {
+        return this.$store.state.registration.email;
+      },
+      set(value) { this.SET_INPUT_VALUE('email', value); },
     },
   },
   methods: {

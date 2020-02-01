@@ -16,6 +16,9 @@ export const state = {
 };
 
 export const mutations = {
+  COMMIT_INPUT_VALUE(state, key, value) {
+    state[key] = value;
+  },
   SET_PHRASE(state, bytes) {
     state.phrase = generateMnemonic(128, bytes);
     state.seedBuffer = mnemonicToSeed(state.phrase);
@@ -30,6 +33,9 @@ export const mutations = {
 };
 
 export const actions = {
+  SET_INPUT_VALUE({ commit }, key, value) {
+    commit('COMMIT_INPUT_VALUE', key, value);
+  },
   INTIALIZE_WALLET({ commit }) {
     console.log('Initializing Wallet!');
     commit('SET_CONFIG', randomBytes);
