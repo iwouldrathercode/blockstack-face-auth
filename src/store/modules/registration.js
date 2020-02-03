@@ -17,7 +17,7 @@ export const actions = {
     commit('COMMIT_INPUT_VALUE', key, value);
   },
   CREATE_ACCOUNT() {
-    console.log('create account!');
+    // console.log('create account!');
   },
 };
 

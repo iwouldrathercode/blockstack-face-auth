@@ -61,7 +61,6 @@ export default {
     devices: [],
     // face-api.js and Similarity matching
     threshold: 0.6,
-    descriptors: { desc1: null, desc2: null },
   }),
   async beforeMount() {
     const WEIGHTS_URL = '/weights';
@@ -117,29 +116,20 @@ export default {
     onCapture() {
       this.image = this.$refs.webcam.capture();
     },
-    onStarted(stream) {
-      console.log('On Started Event', stream);
-    },
-    onStopped(stream) {
-      console.log('On Stopped Event', stream);
-    },
     onStop() {
       this.$refs.webcam.stop();
     },
     onStart() {
       this.$refs.webcam.start();
     },
-    onError(error) {
-      console.log('On Error Event', error);
-    },
     onCameras(cameras) {
       this.devices = cameras;
-      console.log('On Cameras Event', cameras);
+      // console.log('On Cameras Event', cameras);
     },
     onCameraChange(deviceId) {
       this.deviceId = deviceId;
       this.camera = deviceId;
-      console.log('On Camera Change Event', deviceId);
+      // console.log('On Camera Change Event', deviceId);
     },
     async verifyFace() {
       const referenceImage = await faceapi.fetchImage(this.savedImage);
